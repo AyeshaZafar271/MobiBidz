@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(0);
+ini_set('display_errors', 0);
+
 class ProductService
 {
     protected $_title;    // using protected so they can be accessed

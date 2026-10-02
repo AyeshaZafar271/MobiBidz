@@ -347,3 +347,18 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- 1. product table mein type column add karo
+ALTER TABLE `product` 
+ADD COLUMN `type` VARCHAR(50) NOT NULL DEFAULT 'fixed' AFTER `Name`;
+
+-- 2. product_bids table banao
+CREATE TABLE `product_bids` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `bid_price` DECIMAL(10,2) NOT NULL,
+  `bid_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`product_id`) REFERENCES `product`(`ID`),
+  FOREIGN KEY (`account_id`) REFERENCES `account`(`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

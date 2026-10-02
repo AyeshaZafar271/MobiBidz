@@ -38,16 +38,14 @@
 	{
 ?>		
 		  
-	 <iframe src="http://localhost:3000/addBidding/<?php echo $_GET['productId']."_".$user_id?>" width="220" height="400" title="W3Schools Free Online Web Tutorials">
-</iframe> 
+	<iframe src="addBidding.php?id=<?php echo $_GET['productId']."_".$user_id?>" width="220" height="400" title="W3Schools Free Online Web Tutorials"> 
 
 	<?php }
 	else
 	{
 	?>
 	
-		 <iframe src="http://localhost:3000/addBidding.php" width="220" height="400" title="W3Schools Free Online Web Tutorials">
-</iframe> 
+		 <iframe src="addBidding.php" width="220" height="400"...>
 
 	<?php }?>
 <?php //include  'addBidding.php';?>

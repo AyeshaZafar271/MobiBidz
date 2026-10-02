@@ -1,33 +1,38 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var app = require("express")();
+var http = require("http").Server(app);
+var io = require("socket.io")(http, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+var path = require("path");
 
-
-//RENDERING THE INDEX.HTML FILE / HOME PAGE
-
-app.get('/', function(req, res){
-  res.sendfile('index.html');
+// HOME PAGE
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// SOCKET.IO METHOD FOR A CONNNECTION - STANDARD WAY FOR SOCKET CONNECTION
+// BIDDING ROUTE - productId_userId format
+app.get("/addBidding/:id", function (req, res) {
+  res.sendFile(path.join(__dirname, "addBidding.php"));
+});
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-   socket.on('disconnect', function(){
-    console.log('user disconnected');
+// SOCKET CONNECTION
+io.on("connection", function (socket) {
+  console.log("a user connected");
+
+  socket.on("disconnect", function () {
+    console.log("user disconnected");
+  });
+
+  // BID MESSAGE
+  socket.on("chat message", function (msg) {
+    io.emit("chat message", msg);
   });
 });
 
-// SOCKET.IO METHOD FOR CHAT MESSAGE SUBMISSION USING EMIT
-
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
-});
-
-// STANDARD EXPRESS SERVER SETUP
-
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+// SERVER LISTEN
+http.listen(3000, function () {
+  console.log("listening on *:3000");
 });
