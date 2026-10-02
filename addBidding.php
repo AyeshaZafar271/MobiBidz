@@ -1,5 +1,7 @@
 <?php header('Access-Control-Allow-Origin: *'); ?>
-<?php 
+<?php
+	$env = parse_ini_file(__DIR__ . '/.env');
+	$socketUrl = $env['SOCKET_URL'];
 
 	$user_id="";
 	$parameter_id ="";
@@ -74,7 +76,7 @@ else
 	</body>
 	
 
-<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="<?php echo $socketUrl; ?>/socket.io/socket.io.js"></script>
 
     <script>
   
@@ -114,7 +116,7 @@ function displayExistingBiddings(data)
 
 	   populateBiddingData();
   
-	  var socket = io.connect('http://localhost:3000');
+	  var socket = io.connect('<?php echo $socketUrl; ?>');
 
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
