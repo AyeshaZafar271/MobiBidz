@@ -52,8 +52,7 @@ class UserService
         if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 			print_r($user);
-            $submitted_pass = $this->_password;
-            if ($submitted_pass == $user['Password']) {
+            if (password_verify($this->_password, $user['Password'])) {
                 return $user;
             }
         }
@@ -91,14 +90,14 @@ class UserService
 	public function insertUserAccount()
 	{
 		try {
-		 $sql = "INSERT INTO account (Email, Password, Name,Address,Phone,Postcode)
-  VALUES ('".$this->_email."', '".$this->_password."', '".$this->_name."','".$this->_address."','".$this->_phone."','".$this->_postcode."')";
-		
-		 $this->_db->exec($sql);
+		 $hashedPassword = password_hash($this->_password, PASSWORD_BCRYPT);
+		 $sql = "INSERT INTO account (Email, Password, Name,Address,Phone,Postcode) VALUES (?, ?, ?, ?, ?, ?)";
+		 $stmt = $this->_db->prepare($sql);
+		 $stmt->execute([$this->_email, $hashedPassword, $this->_name, $this->_address, $this->_phone, $this->_postcode]);
 		 return "New record created successfully";
 		}
 		catch(PDOException $e) {
-  return $sql . "<br>" . $e->getMessage() ." ";
+  return "Registration failed: " . $e->getMessage();
 }
 	}
 }
