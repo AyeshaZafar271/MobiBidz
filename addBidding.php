@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/php_config.php'; ?>
 <?php header('Access-Control-Allow-Origin: *'); ?>
 <?php
 	$env = parse_ini_file(__DIR__ . '/.env');

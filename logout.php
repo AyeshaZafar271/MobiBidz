@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/php_config.php'; ?>
 <?php
 
    if(!isset($_SESSION)) 

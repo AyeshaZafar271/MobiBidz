@@ -1,7 +1,7 @@
+<?php require_once __DIR__ . '/php_config.php'; ?>
 
-
-<?php 
-// Include configuration file   
+<?php
+// Include configuration file
 require_once 'payment_config.php';  
 ?>
 
