@@ -2,7 +2,11 @@ var app = require("express")();
 var http = require("http").Server(app);
 var io = require("socket.io")(http, {
   cors: {
-    origin: "*",
+    origin: [
+      "http://35.179.15.218",
+      "http://localhost:3000",
+      "http://localhost",
+    ],
     methods: ["GET", "POST"],
   },
 });
