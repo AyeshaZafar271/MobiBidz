@@ -114,16 +114,13 @@ class ProductService
 	public function insertBiddingDetails($user_id, $product_id,$bid_value)
 	{
 				try {
-		 $sql = "INSERT INTO product_bids (product_id, user_id, bid_price, bid_time)
-		VALUES ('".$product_id."', '".$user_id."', '".$bid_value."','".date("Y-m-d")."')";
-		
-		
-		 $this->_db->exec($sql);
+		 $sql = "INSERT INTO product_bids (product_id, user_id, bid_price, bid_time) VALUES (?, ?, ?, ?)";
+		 $stmt = $this->_db->prepare($sql);
+		 $stmt->execute([$product_id, $user_id, $bid_value, date("Y-m-d")]);
 		 return "New record created successfully";
-		  ;
 		}
 		catch(PDOException $e) {
-  return $sql . "<br>" . $e->getMessage();
+  return "Insert failed: " . $e->getMessage();
 }
 		
 		
@@ -191,16 +188,14 @@ class ProductService
 	public function insertProductDetails()
 	{
 		try {
-		 $sql = "INSERT INTO product (Name, category_id, store_id, price, date_added, is_valid, total_in_stock,description,type)
-  VALUES ('".$this->_title."', '".$this->_category."', '".$this->_store_id."', '".$this->_price."','".$this->_date_added."','".$this->_is_valid."','".$this->_total_in_stock."','".$this->_description."','".$this->_type."')";
-		
-
-		 $this->_db->exec($sql);
+		 $sql = "INSERT INTO product (Name, category_id, store_id, price, date_added, is_valid, total_in_stock, description, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		 $stmt = $this->_db->prepare($sql);
+		 $stmt->execute([$this->_title, $this->_category, $this->_store_id, $this->_price, $this->_date_added, $this->_is_valid, $this->_total_in_stock, $this->_description, $this->_type]);
 		 echo "New record created successfully".$this->_store_id;
 		 return $this->_checkProperties();
 		}
 		catch(PDOException $e) {
-  return $sql . "<br>" . $e->getMessage();
+  return "Insert failed: " . $e->getMessage();
 }
 	}
 	
@@ -209,15 +204,13 @@ class ProductService
 		public function insertAddToCartDetails($user_email,$productId,$product_price, $total_items, $is_valid)
 	{
 		try {
-		 $sql = "INSERT INTO account_cart (product_id, user_id, total_product_selected, is_valid, product_price)
-		VALUES ('".$productId."', '".$user_email."', '".$total_items."','".$is_valid."','".$product_price."')";
-		
-		
-		 $this->_db->exec($sql);
+		 $sql = "INSERT INTO account_cart (product_id, user_id, total_product_selected, is_valid, product_price) VALUES (?, ?, ?, ?, ?)";
+		 $stmt = $this->_db->prepare($sql);
+		 $stmt->execute([$productId, $user_email, $total_items, $is_valid, $product_price]);
 		 return $this->_checkATCProperties();
 		}
 		catch(PDOException $e) {
-  return $sql . "<br>" . $e->getMessage();
+  return "Insert failed: " . $e->getMessage();
 }
 	}
 	
