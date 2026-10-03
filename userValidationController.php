@@ -18,7 +18,9 @@ echo $password;
 
 
 
-$pdo = new PDO('mysql:dbname=mobibidz', 'root', '');
+
+$env = parse_ini_file(__DIR__ . '/.env');
+$pdo = new PDO('mysql:host=' . $env['DB_HOST'] . ';dbname=' . $env['DB_NAME'], $env['DB_USER'], $env['DB_PASS']);
 
 
 $userService = new UserService($pdo, $_POST['username'], $_POST['password']);
@@ -36,14 +38,14 @@ if ($user_id = $userService->login()) {
 $_SESSION["password_session"]=$password;
 
     // do stuff
-	header('location: http://localhost/mobibidz/index.php', true, 307);
+	header('location: ' . $env['APP_URL'] . '/index.php', true, 307);
 } else {
 	
 		$_SESSION['user_id']="";
 	$_SESSION["user_fullname"]="";
 	
     echo $_SESSION['message']='Invalid credentials. Please Try Again';
-	header('location: http://localhost/mobibidz/login.php', true, 307);
+	header('location: ' . $env['APP_URL'] . '/login.php', true, 307);
 }
 
   
